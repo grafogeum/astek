@@ -1,6 +1,7 @@
 import { Image } from "./Image";
 import { AlbumProps } from "../types";
 import { Button } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 export const Album = ({
 	title,
@@ -11,7 +12,7 @@ export const Album = ({
 }) => {
 	return (
 		<div>
-			<li>{title}</li>
+			<Typography variant="subtitle1">{title}</Typography>
 			<Button
 				onClick={() => onSelect(title)}
 				variant="contained"

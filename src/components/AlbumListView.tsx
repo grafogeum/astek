@@ -1,8 +1,10 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { AlbumsList } from "../containers/AlbumsList";
 import styled from "@emotion/styled";
 import { Search } from "./Search";
 import { Album } from "./Album";
+import { AlbumContext } from "./AlbumContext";
+import { Typography, Avatar } from "@material-ui/core";
 
 // import { withLoadingAndError } from "../shared/withLoadingAndError";
 // const AlbumListWithLoadingAndError = withLoadingAndError(AlbumsList);
@@ -20,6 +22,8 @@ type selectedAlbum = {
 	url: string;
 };
 
+const AvatarStyleOverride = { width: "200px", height: "auto" };
+
 export const AlbumListView = () => {
 	const [filter, setFilter] = useState("");
 	const [selectedAlbum, setSelectedAlbum] = useState<selectedAlbum | null>(
@@ -27,47 +31,56 @@ export const AlbumListView = () => {
 	);
 
 	return (
-		<main>
-			<Search filter={filter} setFilter={setFilter} />
-			<AlbumsList
-				render={({ data, loading, error }) => {
-					return (
-						<Container>
-							{loading ? (
-								<p>LOADING Component •••</p>
-							) : error ? (
-								<p>Error:☞ {error.message}</p>
-							) : (
-								<ul>
-									{data
-										.filter((item) =>
-											item.title.toLowerCase().includes(filter.toLowerCase())
-										)
-										.slice(0, 20)
-										.map(({ id, title, thumbnailUrl, url }) => (
-											<Fragment key={[id, title].join("")}>
-												<Album
-													id={id}
-													title={title}
-													thumbnailUrl={thumbnailUrl}
-													onSelect={(title) => setSelectedAlbum({ title, url })}
-												/>
-											</Fragment>
-										))}
-								</ul>
-							)}
-							{selectedAlbum && (
-								<>
-									<h4>{selectedAlbum.title}</h4>
-									<div>
-										<img src={selectedAlbum.url} alt="album" />
-									</div>
-								</>
-							)}
-						</Container>
-					);
-				}}
-			/>
-		</main>
+		<AlbumContext.Provider value={{ filter, setFilter }}>
+			<main>
+				<Search />
+				<AlbumsList
+					render={({ data, loading, error }) => {
+						return (
+							<Container>
+								{loading ? (
+									<p>LOADING Component •••</p>
+								) : error ? (
+									<p>Error:☞ {error.message}</p>
+								) : (
+									<ul>
+										{data
+											.filter((item) =>
+												item.title.toLowerCase().includes(filter.toLowerCase())
+											)
+											.slice(0, 20)
+											.map(({ id, title, thumbnailUrl, url }) => (
+												<Fragment key={[id, title].join("")}>
+													<Album
+														id={id}
+														title={title}
+														thumbnailUrl={thumbnailUrl}
+														onSelect={(title) =>
+															setSelectedAlbum({ title, url })
+														}
+													/>
+												</Fragment>
+											))}
+									</ul>
+								)}
+								{selectedAlbum && (
+									<>
+										<Typography variant="h4">{selectedAlbum.title}</Typography>
+										<div>
+											<Avatar
+												variant="circular"
+												src={selectedAlbum.url}
+												alt="album"
+												style={AvatarStyleOverride}
+											/>
+										</div>
+									</>
+								)}
+							</Container>
+						);
+					}}
+				/>
+			</main>
+		</AlbumContext.Provider>
 	);
 };

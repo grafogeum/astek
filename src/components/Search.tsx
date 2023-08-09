@@ -1,5 +1,7 @@
-import { useState, ChangeEvent } from "react";
+import { useContext, ChangeEvent } from "react";
 import styled from "@emotion/styled";
+import { AlbumContext } from "./AlbumContext";
+import { SEARCH_INPUT } from "../constants/constants";
 
 export const SearchInput = styled.input`
 	padding: 0.7rem 1rem;
@@ -9,27 +11,20 @@ export const SearchInput = styled.input`
 	width: 90vw;
 `;
 
-export const Search = ({
-	filter,
-	setFilter,
-}: {
-	filter: string;
-	setFilter: (search: string) => void;
-}) => {
-	const [search, setSearch] = useState("");
+export const Search = () => {
+	const { filter, setFilter } = useContext(AlbumContext);
 
 	const handleSearch = ({ target }: ChangeEvent<HTMLInputElement>) => {
-		setSearch(target.value);
-		setFilter(search);
+		setFilter && setFilter(target.value);
 	};
 
 	return (
 		<>
 			<SearchInput
-				type="text"
-				placeholder="Search"
+				type={SEARCH_INPUT.type}
+				placeholder={SEARCH_INPUT.placeholder}
+				value={filter}
 				onChange={handleSearch}
-				value={search}
 			/>
 		</>
 	);
