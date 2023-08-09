@@ -13,8 +13,8 @@ export const Search = ({
 	filter,
 	setFilter,
 }: {
-	filter: any;
-	setFilter: any;
+	filter: string;
+	setFilter: (search: string) => void;
 }) => {
 	const [search, setSearch] = useState("");
 

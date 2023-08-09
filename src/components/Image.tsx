@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
 const StyledImage = styled.img`
-	height: 300px;
-	max-width: 300px;
+	height: 150px;
+	max-width: 150px;
 	overflow: hidden;
 	display: block;
 	width: 100%;
