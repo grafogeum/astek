@@ -6,7 +6,7 @@ export const SearchInput = styled.input`
 	border: 1px solid #8c55da;
 	font: 1.5rem "Verdana", Merriweather, serif;
 	border-radius: 15px;
-	width: 25rem;
+	width: 90vw;
 `;
 
 export const Search = ({
