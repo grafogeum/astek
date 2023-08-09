@@ -1,12 +1,17 @@
-import { Button } from "@material-ui/core";
+import { DefaultLayout } from "./layouts";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+
 function App() {
 	return (
-		<div>
-			<div>hello</div>
-			<Button variant="contained" color="primary">
-				Push me
-			</Button>
-		</div>
+		<Router>
+			<nav>
+				<Link to="/">Home</Link>
+			</nav>
+			<Routes>
+				<Route path="/" element={<DefaultLayout />} />
+				<Route path="*" element={<div>Error....</div>} />
+			</Routes>
+		</Router>
 	);
 }
 
