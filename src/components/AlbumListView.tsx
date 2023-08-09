@@ -33,50 +33,56 @@ export const AlbumListView = () => {
 	return (
 		<AlbumContext.Provider value={{ filter, setFilter }}>
 			<main>
-				<Search />
 				<AlbumsList
 					render={({ data, loading, error }) => {
 						return (
-							<Container>
-								{loading ? (
-									<p>LOADING Component •••</p>
-								) : error ? (
-									<p>Error:☞ {error.message}</p>
-								) : (
-									<ul>
-										{data
-											.filter((item) =>
-												item.title.toLowerCase().includes(filter.toLowerCase())
-											)
-											.slice(0, 20)
-											.map(({ id, title, thumbnailUrl, url }) => (
-												<Fragment key={[id, title].join("")}>
-													<Album
-														id={id}
-														title={title}
-														thumbnailUrl={thumbnailUrl}
-														onSelect={(title) =>
-															setSelectedAlbum({ title, url })
-														}
-													/>
-												</Fragment>
-											))}
-									</ul>
-								)}
-								{selectedAlbum && (
-									<>
-										<Typography variant="h4">{selectedAlbum.title}</Typography>
-										<div>
-											<Avatar
-												variant="circular"
-												src={selectedAlbum.url}
-												alt="album"
-												style={AvatarStyleOverride}
-											/>
-										</div>
-									</>
-								)}
-							</Container>
+							<>
+								<Search />
+								<Container>
+									{loading ? (
+										<p>LOADING Component •••</p>
+									) : error ? (
+										<p>Error:☞ {error.message}</p>
+									) : (
+										<ul>
+											{data
+												.filter((item) =>
+													item.title
+														.toLowerCase()
+														.includes(filter.toLowerCase())
+												)
+												.slice(0, 20)
+												.map(({ id, title, thumbnailUrl, url }) => (
+													<Fragment key={[id, title].join("")}>
+														<Album
+															id={id}
+															title={title}
+															thumbnailUrl={thumbnailUrl}
+															onSelect={(title) =>
+																setSelectedAlbum({ title, url })
+															}
+														/>
+													</Fragment>
+												))}
+										</ul>
+									)}
+									{selectedAlbum && (
+										<>
+											<Typography variant="h4">
+												{selectedAlbum.title}
+											</Typography>
+											<div>
+												<Avatar
+													variant="circular"
+													src={selectedAlbum.url}
+													alt="album"
+													style={AvatarStyleOverride}
+												/>
+											</div>
+										</>
+									)}
+								</Container>
+							</>
 						);
 					}}
 				/>
